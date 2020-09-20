@@ -1,14 +1,24 @@
-import React from "react";
-import { fire } from "./firebase";
-import NewOrders from "./components/adminComp/NewOrders";
-import CompletedOrders from "./components/adminComp/CompletedOrders";
+import React from 'react';
+import { fire } from './firebase';
+import { AppBar, Toolbar, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 function Admin() {
   return (
     <div>
-      <h1>You are logged in as an Admin</h1>
+      <AppBar position='static'>
+        <Toolbar>
+          <Button color='inherit' component={Link} to={'/adminuserorders'}>
+            NewOrders
+          </Button>
+          <Button color='inherit' component={Link} to={'/admincompletedorders'}>
+            CompletedOrders
+          </Button>
+        </Toolbar>
+      </AppBar>
+      {/* <h1>You are logged in as an Admin</h1>
       <NewOrders />
-      <CompletedOrders />
+      <CompletedOrders /> */}
       <button
         onClick={() => {
           fire.auth().signOut();

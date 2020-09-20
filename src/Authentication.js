@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import Login from './Login';
-import { fire } from './firebase.jsx';
-import Customer from './Customer';
+import React, { useState, useEffect } from "react";
+import Login from "./Login";
+import { fire } from "./firebase.jsx";
+import Customer from "./Customer";
+import Admin from "./Admin";
 
 function Authentication() {
-  const [user, setUser] = useState('');
-  const [signInEmail, setSignInEmail] = useState('');
-  const [signInPassword, setSignInPassword] = useState('');
-  const [userName, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [user, setUser] = useState("");
+  const [signInEmail, setSignInEmail] = useState("");
+  const [signInPassword, setSignInPassword] = useState("");
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [hasAccount, setHasAccount] = useState(false);
-  const [signInEmailError, setSignInEmailError] = useState('');
-  const [signInPasswordError, setSignInPasswordError] = useState('');
+  const [signInEmailError, setSignInEmailError] = useState("");
+  const [signInPasswordError, setSignInPasswordError] = useState("");
   const [userNameError, setUserNameError] = useState(false);
   const [signUpButton, setSignUpButton] = useState(true);
   const [userNull, setUserNull] = useState(false);
@@ -22,13 +23,13 @@ function Authentication() {
 
   const clearInputs = () => {
     setSignUpButton(true);
-    setEmail('');
-    setPassword('');
+    setEmail("");
+    setPassword("");
   };
 
   const clearErrors = () => {
-    setEmailError('');
-    setPasswordError('');
+    setEmailError("");
+    setPasswordError("");
   };
 
   const handleLogin = () => {
@@ -38,13 +39,13 @@ function Authentication() {
       .signInWithEmailAndPassword(signInEmail, signInPassword)
       .catch((err) => {
         switch (err.code) {
-          case 'auth/invalid-email':
-          case 'auth/user-disabled':
-          case 'auth/user-not-found':
+          case "auth/invalid-email":
+          case "auth/user-disabled":
+          case "auth/user-not-found":
             setSignInEmailError(err.message);
             break;
           default:
-          case 'auth/wrong-password':
+          case "auth/wrong-password":
             setSignInPasswordError(err.message);
         }
       });
@@ -65,25 +66,21 @@ function Authentication() {
       })
       .catch((err) => {
         switch (err.code) {
-          case 'auth/email-already-in-use':
-          case 'auth/invalid-email':
+          case "auth/email-already-in-use":
+          case "auth/invalid-email":
             setEmailError(err.message);
             break;
           default:
-          case 'auth/weak-password':
+          case "auth/weak-password":
             setPasswordError(err.message);
         }
       });
   };
 
-  const handleLogout = () => {
-    fire.auth().signOut();
-  };
-
   const authListener = () => {
     fire.auth().onAuthStateChanged((authUser) => {
       if (authUser) {
-        if (authUser.email === 'shivquasiparticle@gmail.com') {
+        if (authUser.email === "shivquasiparticle@gmail.com") {
           console.log(authUser.email);
           setUser(authUser);
           setAdmin(true);
@@ -103,9 +100,9 @@ function Authentication() {
 
   function renderAdmin_renderCustomer() {
     if (admin === true) {
-      return <h1>you Are logged in as admin</h1>;
+      return <Admin />;
     } else {
-      return <Customer handleLogout={handleLogout} />;
+      return <Customer />;
     }
   }
 

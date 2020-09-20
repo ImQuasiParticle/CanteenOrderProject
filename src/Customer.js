@@ -1,14 +1,23 @@
-import React from "react";
-import { fire } from "./firebase";
-import UserOrders from "./components/customerComp/UserOrders";
-import CompletedUserOrders from "./components/customerComp/CompletedUserOrders";
-
+import React from 'react';
+import { fire } from './firebase';
+import { AppBar, Toolbar, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 function Customer() {
   return (
     <div>
-      <h1>You are logged in as customer</h1>
+      <AppBar position='static'>
+        <Toolbar>
+          <Button color='inherit' component={Link} to={'/userorders'}>
+            NewOrders
+          </Button>
+          <Button color='inherit' component={Link} to={'/completedorders'}>
+            CompletedOrders
+          </Button>
+        </Toolbar>
+      </AppBar>
+      {/* <h1>You are logged in as customer</h1>
       <UserOrders />
-      <CompletedUserOrders />
+      <CompletedUserOrders /> */}
       <button
         onClick={() => {
           fire.auth().signOut();

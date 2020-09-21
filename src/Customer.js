@@ -1,7 +1,7 @@
 import React from "react";
 import { fire } from "./firebase";
 import { AppBar, Toolbar, Button } from "@material-ui/core";
-import { BrowserRouter, Switch, Link, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Switch, Link, Route, NavLink } from "react-router-dom";
 import UserOrders from "./components/customerComp/UserOrders";
 import CompletedUserOrders from "./components/customerComp/CompletedUserOrders";
 function Customer() {
@@ -10,10 +10,10 @@ function Customer() {
       <div>
         <AppBar position="static">
           <Toolbar>
-            <Button color="inherit" component={Link} to={"userorders"}>
+            <Button color="inherit" component={NavLink} to={"userorders"}>
               UserOrders
             </Button>
-            <Button color="inherit" component={Link} to={"completedorders"}>
+            <Button color="inherit" component={NavLink} to={"completedorders"}>
               CompletedOrders
             </Button>
             <Button

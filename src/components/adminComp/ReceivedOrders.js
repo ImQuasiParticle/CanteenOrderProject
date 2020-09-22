@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import Order from "../Order";
 import { db } from "../../firebase";
 
-function CompletedOrders() {
+function ReceivedOrders() {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
     const unSubscribe = db
       .collection("orders")
-      .where("status", "==", "Completed")
+      .where("status", "==", "Received")
       // .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
         setOrders(
@@ -23,13 +23,26 @@ function CompletedOrders() {
     };
   }, [orders]);
 
+  function statusButton(props) {
+    db.collection("orders").doc(props).update({
+      status: "Completed",
+      awaitStatus: "Complete",
+    });
+    console.log(props);
+  }
+
   return (
     <div>
       {orders.map(({ id, order }) => (
-        <Order orderId={id} order={order} key={id} />
+        <Order
+          statusButton={statusButton}
+          orderId={id}
+          order={order}
+          key={id}
+        />
       ))}
     </div>
   );
 }
 
-export default CompletedOrders;
+export default ReceivedOrders;

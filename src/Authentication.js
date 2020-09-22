@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import Login from "./Login";
-import { fire } from "./firebase.jsx";
-import Customer from "./Customer";
-import Admin from "./Admin";
+import React, { useState, useEffect } from 'react';
+import Login from './Login';
+import { fire } from './firebase.jsx';
+import Customer from './Customer';
+import Admin from './Admin';
 import {
   Redirect,
   BrowserRouter,
@@ -10,35 +10,35 @@ import {
   Link,
   Route,
   NavLink,
-} from "react-router-dom";
+} from 'react-router-dom';
 
 function Authentication() {
-  const [user, setUser] = useState("");
-  const [signInEmail, setSignInEmail] = useState("");
-  const [signInPassword, setSignInPassword] = useState("");
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [user, setUser] = useState('');
+  const [signInEmail, setSignInEmail] = useState('');
+  const [signInPassword, setSignInPassword] = useState('');
+  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [hasAccount, setHasAccount] = useState(false);
-  const [signInEmailError, setSignInEmailError] = useState("");
-  const [signInPasswordError, setSignInPasswordError] = useState("");
+  const [signInEmailError, setSignInEmailError] = useState('');
+  const [signInPasswordError, setSignInPasswordError] = useState('');
   const [userNameError, setUserNameError] = useState(false);
   const [signUpButton, setSignUpButton] = useState(true);
   const [userNull, setUserNull] = useState(false);
-  const [admin, setAdmin] = useState("");
-  const [route, setRoute] = useState("");
+  const [admin, setAdmin] = useState('');
+  const [route, setRoute] = useState('');
 
   const clearInputs = () => {
     setSignUpButton(true);
-    setEmail("");
-    setPassword("");
+    setEmail('');
+    setPassword('');
   };
 
   const clearErrors = () => {
-    setEmailError("");
-    setPasswordError("");
+    setEmailError('');
+    setPasswordError('');
   };
 
   const handleLogin = () => {
@@ -48,13 +48,13 @@ function Authentication() {
       .signInWithEmailAndPassword(signInEmail, signInPassword)
       .catch((err) => {
         switch (err.code) {
-          case "auth/invalid-email":
-          case "auth/user-disabled":
-          case "auth/user-not-found":
+          case 'auth/invalid-email':
+          case 'auth/user-disabled':
+          case 'auth/user-not-found':
             setSignInEmailError(err.message);
             break;
           default:
-          case "auth/wrong-password":
+          case 'auth/wrong-password':
             setSignInPasswordError(err.message);
         }
       });
@@ -75,12 +75,12 @@ function Authentication() {
       })
       .catch((err) => {
         switch (err.code) {
-          case "auth/email-already-in-use":
-          case "auth/invalid-email":
+          case 'auth/email-already-in-use':
+          case 'auth/invalid-email':
             setEmailError(err.message);
             break;
           default:
-          case "auth/weak-password":
+          case 'auth/weak-password':
             setPasswordError(err.message);
         }
       });
@@ -89,14 +89,12 @@ function Authentication() {
   const authListener = () => {
     fire.auth().onAuthStateChanged((authUser) => {
       if (authUser) {
-        if (authUser.email === "shivquasiparticle@gmail.com") {
-          console.log(authUser.email);
+        if (authUser.email === 'shivquasiparticle@gmail.com') {
           setAdmin(authUser);
-          setRoute("/admin");
+          setRoute('/admin');
         } else {
-          console.log(authUser.email);
           setUser(authUser);
-          setRoute("/customer");
+          setRoute('/customer');
         }
       }
     });
@@ -111,8 +109,8 @@ function Authentication() {
         <BrowserRouter>
           <Switch>
             <React.StrictMode>
-              <Route exact path="/adminhome" component={Admin} />
-              <Redirect to="/adminhome" />
+              <Route exact path='/adminhome' component={Admin} />
+              <Redirect to='/adminhome' />
             </React.StrictMode>
           </Switch>
         </BrowserRouter>
@@ -122,8 +120,8 @@ function Authentication() {
         <BrowserRouter>
           <Switch>
             <React.StrictMode>
-              <Route exact path="/customer" component={Customer} />
-              <Redirect to="/customer" />
+              <Route exact path='/customer' component={Customer} />
+              <Redirect to='/customer' />
             </React.StrictMode>
           </Switch>
         </BrowserRouter>
@@ -135,7 +133,7 @@ function Authentication() {
             <React.StrictMode>
               <Route
                 exact
-                path="/"
+                path='/'
                 render={() => {
                   return (
                     <Login
@@ -170,7 +168,7 @@ function Authentication() {
                   );
                 }}
               />
-              <Redirect to="/" />
+              <Redirect to='/' />
             </React.StrictMode>
           </Switch>
         </BrowserRouter>

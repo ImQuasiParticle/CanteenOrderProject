@@ -21,7 +21,7 @@ function NewOrders() {
     return () => {
       unSubscribe();
     };
-  }, [orders]);
+  }, []);
 
   function statusButton(props) {
     db.collection("orders").doc(props).update({

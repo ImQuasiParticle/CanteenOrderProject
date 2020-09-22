@@ -18,10 +18,8 @@ function CompletedOrders() {
           }))
         );
       });
-    return () => {
-      unSubscribe();
-    };
-  }, [orders]);
+    console.log(orders);
+  }, []);
 
   return (
     <div>

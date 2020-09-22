@@ -86,7 +86,7 @@ export default function Order(props) {
           alignItems="center"
         >
           <Grid item>
-            <Typography className={props.order.status} variant="H6">
+            <Typography className={props.order.status} variant="body2">
               STATUS : {props.order.status}
             </Typography>
           </Grid>

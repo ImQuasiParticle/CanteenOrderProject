@@ -92,11 +92,11 @@ function Authentication() {
         if (authUser.email === "shivquasiparticle@gmail.com") {
           console.log(authUser.email);
           setAdmin(authUser);
-          setRoute("/admin");
+          setRoute("/");
         } else {
           console.log(authUser.email);
           setUser(authUser);
-          setRoute("/customer");
+          setRoute("/");
         }
       }
     });
@@ -111,8 +111,8 @@ function Authentication() {
         <BrowserRouter>
           <Switch>
             <React.StrictMode>
-              <Route exact path="/adminhome" component={Admin} />
-              <Redirect to="/adminhome" />
+              <Route exact path="/" component={Admin} />
+              <Redirect to="/" />
             </React.StrictMode>
           </Switch>
         </BrowserRouter>
@@ -122,8 +122,14 @@ function Authentication() {
         <BrowserRouter>
           <Switch>
             <React.StrictMode>
-              <Route exact path="/customer" component={Customer} />
-              <Redirect to="/customer" />
+              <Route
+                exact
+                path="/"
+                render={() => {
+                  return <Customer user={user} />;
+                }}
+              />
+              <Redirect to="/" />
             </React.StrictMode>
           </Switch>
         </BrowserRouter>

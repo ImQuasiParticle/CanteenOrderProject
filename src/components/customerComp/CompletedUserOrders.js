@@ -1,9 +1,34 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import Order from "../Order";
+import { fire, db } from "../../firebase";
 
-function CompletedUserOrders() {
+function CompletedUserOrders({ user }) {
+  const [orders, setOrders] = useState([]);
+  console.log(user);
+
+  useEffect(() => {
+    const unSubscribe = db
+      .collection("orders")
+      .where("status", "==", "Completed")
+      .where("name", "==", user.displayName)
+      // .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        setOrders(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            order: doc.data(),
+          }))
+        );
+      });
+    console.log(orders);
+  }, []);
+
   return (
     <div>
-      <h1>completed user orders</h1>
+      {orders.map(({ id, order }) => (
+        <Order orderId={id} order={order} key={id} />
+      ))}
     </div>
   );
 }

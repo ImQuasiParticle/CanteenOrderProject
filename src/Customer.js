@@ -5,16 +5,16 @@ import { BrowserRouter, Switch, Link, Route, NavLink } from "react-router-dom";
 import UserOrders from "./components/customerComp/UserOrders";
 import CompletedUserOrders from "./components/customerComp/CompletedUserOrders";
 import Book from "./components/customerComp/Book";
-function Customer() {
+function Customer(props) {
   return (
     <BrowserRouter>
       <div>
         <AppBar position="static">
           <Toolbar>
-            <Button color="inherit" component={NavLink} to={"userorders"}>
+            <Button color="inherit" component={Link} to={"/userorders"}>
               UserOrders
             </Button>
-            <Button color="inherit" component={NavLink} to={"completedorders"}>
+            <Button color="inherit" component={Link} to={"/completedorders"}>
               CompletedOrders
             </Button>
             <Button
@@ -32,12 +32,20 @@ function Customer() {
 
         <Switch>
           <React.StrictMode>
-            <Route exact path="/customer" component={Book} />
-            <Route exact path="/userorders" component={UserOrders} />
+            <Route exact path="/" component={Book} />
+            <Route
+              exact
+              path="/userorders"
+              render={() => {
+                return <UserOrders user={props.user} />;
+              }}
+            />
             <Route
               exact
               path="/completedorders"
-              component={CompletedUserOrders}
+              render={() => {
+                return <CompletedUserOrders user={props.user} />;
+              }}
             />
           </React.StrictMode>
         </Switch>

@@ -35,7 +35,7 @@ function Admin() {
 
         <Switch>
           <React.StrictMode>
-            <Route exact path="/adminhome" component={NewOrders} />
+            <Route exact path="/" component={NewOrders} />
             <Route exact path="/receivedorders" component={ReceivedOrders} />
             <Route exact path="/completedorders" component={CompletedOrders} />
           </React.StrictMode>

@@ -4,23 +4,28 @@ import { AppBar, Toolbar, Button } from "@material-ui/core";
 import { BrowserRouter, Switch, Link, Route, NavLink } from "react-router-dom";
 import NewOrders from "./components/adminComp/NewOrders";
 import CompletedOrders from "./components/adminComp/CompletedOrders";
+import ReceivedOrders from "./components/adminComp/ReceivedOrders";
 function Admin() {
   return (
     <BrowserRouter>
       <div>
         <AppBar position="static">
           <Toolbar>
-            <Button color="inherit" component={NavLink} to={"neworders"}>
-              NewOrders
+            <Button color="inherit" component={NavLink} to={"adminhome"}>
+              Home
+            </Button>
+            <Button color="inherit" component={NavLink} to={"receivedorders"}>
+              Received
             </Button>
             <Button color="inherit" component={NavLink} to={"completedorders"}>
-              CompletedOrders
+              Completed
             </Button>
             <Button
-              component={Link}
+              component={NavLink}
               to={"/"}
               onClick={() => {
                 fire.auth().signOut();
+                window.location.reload();
               }}
             >
               log Out
@@ -30,7 +35,8 @@ function Admin() {
 
         <Switch>
           <React.StrictMode>
-            <Route exact path="/neworders" component={NewOrders} />
+            <Route exact path="/adminhome" component={NewOrders} />
+            <Route exact path="/receivedorders" component={ReceivedOrders} />
             <Route exact path="/completedorders" component={CompletedOrders} />
           </React.StrictMode>
         </Switch>

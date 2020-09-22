@@ -3,6 +3,14 @@ import Login from "./Login";
 import { fire } from "./firebase.jsx";
 import Customer from "./Customer";
 import Admin from "./Admin";
+import {
+  Redirect,
+  BrowserRouter,
+  Switch,
+  Link,
+  Route,
+  NavLink,
+} from "react-router-dom";
 
 function Authentication() {
   const [user, setUser] = useState("");
@@ -19,7 +27,8 @@ function Authentication() {
   const [userNameError, setUserNameError] = useState(false);
   const [signUpButton, setSignUpButton] = useState(true);
   const [userNull, setUserNull] = useState(false);
-  const [admin, setAdmin] = useState(false);
+  const [admin, setAdmin] = useState("");
+  const [route, setRoute] = useState("");
 
   const clearInputs = () => {
     setSignUpButton(true);
@@ -82,15 +91,13 @@ function Authentication() {
       if (authUser) {
         if (authUser.email === "shivquasiparticle@gmail.com") {
           console.log(authUser.email);
-          setUser(authUser);
-          setAdmin(true);
+          setAdmin(authUser);
+          setRoute("/admin");
         } else {
           console.log(authUser.email);
           setUser(authUser);
-          setAdmin(false);
+          setRoute("/customer");
         }
-      } else {
-        setUser(null);
       }
     });
   };
@@ -99,48 +106,79 @@ function Authentication() {
   }, []);
 
   function renderAdmin_renderCustomer() {
-    if (admin === true) {
-      return <Admin />;
+    if (admin) {
+      return (
+        <BrowserRouter>
+          <Switch>
+            <React.StrictMode>
+              <Route exact path="/adminhome" component={Admin} />
+              <Redirect to="/adminhome" />
+            </React.StrictMode>
+          </Switch>
+        </BrowserRouter>
+      );
+    } else if (user) {
+      return (
+        <BrowserRouter>
+          <Switch>
+            <React.StrictMode>
+              <Route exact path="/customer" component={Customer} />
+              <Redirect to="/customer" />
+            </React.StrictMode>
+          </Switch>
+        </BrowserRouter>
+      );
     } else {
-      return <Customer />;
+      return (
+        <BrowserRouter>
+          <Switch>
+            <React.StrictMode>
+              <Route
+                exact
+                path="/"
+                render={() => {
+                  return (
+                    <Login
+                      route={route}
+                      setRoute={setRoute}
+                      userNull={userNull}
+                      setUserNull={setUserNull}
+                      userNameError={userNameError}
+                      signInEmailError={signInEmailError}
+                      setSignInEmailError={setSignInEmailError}
+                      signInPasswordError={signInPasswordError}
+                      setSignInPasswordError={setSignInPasswordError}
+                      signInEmail={signInEmail}
+                      setSignInEmail={setSignInEmail}
+                      signInPassword={signInPassword}
+                      setSignInPassword={setSignInPassword}
+                      userName={userName}
+                      setUserName={setUserName}
+                      email={email}
+                      setEmail={setEmail}
+                      password={password}
+                      setPassword={setPassword}
+                      handleLogin={handleLogin}
+                      handleSignup={handleSignup}
+                      hasAccount={hasAccount}
+                      setHasAccount={setHasAccount}
+                      emailError={emailError}
+                      passwordError={passwordError}
+                      signUpButton={signUpButton}
+                      setSignUpButton={setSignUpButton}
+                    />
+                  );
+                }}
+              />
+              <Redirect to="/" />
+            </React.StrictMode>
+          </Switch>
+        </BrowserRouter>
+      );
     }
   }
 
-  return (
-    <div>
-      {user ? (
-        renderAdmin_renderCustomer()
-      ) : (
-        <Login
-          userNull={userNull}
-          setUserNull={setUserNull}
-          userNameError={userNameError}
-          signInEmailError={signInEmailError}
-          setSignInEmailError={setSignInEmailError}
-          signInPasswordError={signInPasswordError}
-          setSignInPasswordError={setSignInPasswordError}
-          signInEmail={signInEmail}
-          setSignInEmail={setSignInEmail}
-          signInPassword={signInPassword}
-          setSignInPassword={setSignInPassword}
-          userName={userName}
-          setUserName={setUserName}
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          handleLogin={handleLogin}
-          handleSignup={handleSignup}
-          hasAccount={hasAccount}
-          setHasAccount={setHasAccount}
-          emailError={emailError}
-          passwordError={passwordError}
-          signUpButton={signUpButton}
-          setSignUpButton={setSignUpButton}
-        />
-      )}
-    </div>
-  );
+  return <div>{renderAdmin_renderCustomer()}</div>;
 }
 
 export default Authentication;

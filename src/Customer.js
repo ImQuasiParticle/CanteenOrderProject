@@ -4,6 +4,7 @@ import { AppBar, Toolbar, Button } from "@material-ui/core";
 import { BrowserRouter, Switch, Link, Route, NavLink } from "react-router-dom";
 import UserOrders from "./components/customerComp/UserOrders";
 import CompletedUserOrders from "./components/customerComp/CompletedUserOrders";
+import Book from "./components/customerComp/Book";
 function Customer() {
   return (
     <BrowserRouter>
@@ -21,6 +22,7 @@ function Customer() {
               to={"/"}
               onClick={() => {
                 fire.auth().signOut();
+                window.location.reload();
               }}
             >
               log Out
@@ -30,6 +32,7 @@ function Customer() {
 
         <Switch>
           <React.StrictMode>
+            <Route exact path="/customer" component={Book} />
             <Route exact path="/userorders" component={UserOrders} />
             <Route
               exact

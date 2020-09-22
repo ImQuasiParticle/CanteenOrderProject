@@ -21,13 +21,11 @@ function login({
 }) {
   return (
     <center className="landing-page">
-      
       <h5 className="form__heading"> Sign - In Below </h5>
       <input
         placeholder="Email"
         className="form__field"
         type="text"
-        autoFocus
         required
         value={signInEmail}
         onChange={(e) => setSignInEmail(e.target.value)}
@@ -51,7 +49,6 @@ function login({
         className="form__field"
         placeholder="Your Name"
         type="text"
-        autoFocus
         required
         value={userName}
         onChange={(e) => {
@@ -59,13 +56,12 @@ function login({
         }}
       />
       {userNull ? <p className="error_">Enter A User Name</p> : null}
-      <br/>
-      <br/>
+      <br />
+      <br />
       <input
         className="form__field"
         placeholder="Email"
         type="text"
-        autoFocus
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
@@ -81,9 +77,8 @@ function login({
       />
       <p className="error_"> {passwordError} </p>
       <button className="btn" onClick={handleSignup}>
-       Sign Up
+        Sign Up
       </button>
-      
     </center>
   );
 }

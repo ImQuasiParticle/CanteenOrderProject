@@ -1,28 +1,29 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { db } from '../../firebase';
-import { Remove, Add } from '@material-ui/icons';
+import React from "react";
+import { useState, useEffect } from "react";
+import { db } from "../../firebase";
+import { Remove, Add } from "@material-ui/icons";
+import CustomerNav from "./CustomerNav";
 //import Order from '../Order.js';
 
 let array = [];
 
-function Book() {
+function Book({ user, setUser }) {
   const [cartItems, setCartItems] = useState([]);
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    db.collection('items').onSnapshot((snapshot) => {
+    db.collection("items").onSnapshot((snapshot) => {
       setItems(
         snapshot.docs.map((doc) => ({
           id: doc.id,
         }))
       );
     });
-    console.log('hiii', items);
+    console.log("hiii", items);
   }, []);
 
   const addItem = (prop) => {
-    console.log('Helloooo');
+    console.log("Helloooo");
     array.push(prop);
     setCartItems(array);
     console.log(array);
@@ -37,8 +38,9 @@ function Book() {
   };
   return (
     <div>
-      <button onClick={() => addItem('noodles')}>noodles</button>
-      <h1 onClick={() => addItem('french fries')}>french fries</h1>
+      <CustomerNav setUser={setUser} />
+      <button onClick={() => addItem("noodles")}>noodles</button>
+      <h1 onClick={() => addItem("french fries")}>french fries</h1>
       <h1>water Bottle</h1>
       {items.map(({ id }) => (
         <div>

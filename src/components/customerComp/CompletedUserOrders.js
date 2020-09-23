@@ -2,8 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Order from "../Order";
 import { fire, db } from "../../firebase";
+import CustomerNav from "./CustomerNav";
 
-function CompletedUserOrders({ user }) {
+function CompletedUserOrders({ user, setUser }) {
   const [orders, setOrders] = useState([]);
   console.log(user);
 
@@ -26,6 +27,7 @@ function CompletedUserOrders({ user }) {
 
   return (
     <div>
+      <CustomerNav setUser={setUser} />
       {orders.map(({ id, order }) => (
         <Order orderId={id} order={order} key={id} />
       ))}

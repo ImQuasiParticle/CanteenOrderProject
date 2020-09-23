@@ -2,8 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Order from "../Order";
 import { db } from "../../firebase";
+import AdminNav from "./AdminNav";
 
-function NewOrders() {
+function NewOrders(props) {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
     const unSubscribe = db
@@ -33,6 +34,8 @@ function NewOrders() {
 
   return (
     <div>
+      <AdminNav setUser={props.setUser} />
+
       {orders.map(({ id, order }) => (
         <Order
           statusButton={statusButton}

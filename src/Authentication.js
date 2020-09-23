@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Login from "./Login";
 import { fire } from "./firebase.jsx";
 import Customer from "./Customer";
-import Admin from "./Admin";
 import {
   Redirect,
   BrowserRouter,
@@ -11,6 +10,12 @@ import {
   Route,
   NavLink,
 } from "react-router-dom";
+import NewOrders from "./components/adminComp/NewOrders";
+import ReceivedOrders from "./components/adminComp/ReceivedOrders";
+import CompletedOrders from "./components/adminComp/CompletedOrders";
+import Book from "./components/customerComp/Book";
+import CompletedUserOrders from "./components/customerComp/CompletedUserOrders";
+import UserOrders from "./components/customerComp/UserOrders";
 
 function Authentication() {
   const [user, setUser] = useState("");
@@ -111,8 +116,28 @@ function Authentication() {
         <BrowserRouter>
           <Switch>
             <React.StrictMode>
-              <Route exact path="/" component={Admin} />
-              <Redirect to="/" />
+              <Route
+                exact
+                path="/adminhome"
+                render={() => {
+                  return <NewOrders setAdmin={setAdmin} admin={admin} />;
+                }}
+              />
+              <Route
+                exact
+                path="/adminreceivedorders"
+                render={() => {
+                  return <ReceivedOrders setAdmin={setAdmin} admin={admin} />;
+                }}
+              />
+              <Route
+                exact
+                path="/admincompletedOrders"
+                render={() => {
+                  return <CompletedOrders setAdmin={setAdmin} admin={admin} />;
+                }}
+              />
+              <Redirect to="/adminhome" />
             </React.StrictMode>
           </Switch>
         </BrowserRouter>
@@ -124,12 +149,26 @@ function Authentication() {
             <React.StrictMode>
               <Route
                 exact
-                path="/"
+                path="/customerbooking"
                 render={() => {
-                  return <Customer user={user} />;
+                  return <Book setUser={setUser} user={user} />;
                 }}
               />
-              <Redirect to="/" />
+              <Route
+                exact
+                path="/customerorders"
+                render={() => {
+                  return <UserOrders setUser={setUser} user={user} />;
+                }}
+              />
+              <Route
+                exact
+                path="/customercompletedorders"
+                render={() => {
+                  return <CompletedUserOrders setUser={setUser} user={user} />;
+                }}
+              />
+              <Redirect to="/customerbooking" />
             </React.StrictMode>
           </Switch>
         </BrowserRouter>

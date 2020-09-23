@@ -2,7 +2,7 @@ import React from "react";
 import { AppBar, Toolbar, Button } from "@material-ui/core";
 import { Link, NavLink } from "react-router-dom";
 import { fire } from "../../firebase";
-function AdminNav() {
+function AdminNav(props) {
   return (
     <AppBar position="static">
       <Toolbar>
@@ -21,6 +21,7 @@ function AdminNav() {
           onClick={() => {
             fire.auth().signOut();
             window.location.reload();
+            props.setAdmin(null);
           }}
         >
           log Out

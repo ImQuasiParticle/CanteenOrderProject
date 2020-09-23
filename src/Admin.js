@@ -1,28 +1,28 @@
-import React from "react";
-import { fire } from "./firebase";
-import { AppBar, Toolbar, Button } from "@material-ui/core";
-import { BrowserRouter, Switch, Link, Route, NavLink } from "react-router-dom";
-import NewOrders from "./components/adminComp/NewOrders";
-import CompletedOrders from "./components/adminComp/CompletedOrders";
-import ReceivedOrders from "./components/adminComp/ReceivedOrders";
+import React from 'react';
+import { fire } from './firebase';
+import { AppBar, Toolbar, Button } from '@material-ui/core';
+import { BrowserRouter, Switch, Route, NavLink } from 'react-router-dom';
+import NewOrders from './components/adminComp/NewOrders';
+import CompletedOrders from './components/adminComp/CompletedOrders';
+import ReceivedOrders from './components/adminComp/ReceivedOrders';
 function Admin() {
   return (
     <BrowserRouter>
       <div>
-        <AppBar position="static">
+        <AppBar position='static'>
           <Toolbar>
-            <Button color="inherit" component={NavLink} to={"adminhome"}>
+            <Button color='inherit' component={NavLink} to={'adminhome'}>
               Home
             </Button>
-            <Button color="inherit" component={NavLink} to={"receivedorders"}>
+            <Button color='inherit' component={NavLink} to={'receivedorders'}>
               Received
             </Button>
-            <Button color="inherit" component={NavLink} to={"completedorders"}>
+            <Button color='inherit' component={NavLink} to={'completedorders'}>
               Completed
             </Button>
             <Button
               component={NavLink}
-              to={"/"}
+              to={'/'}
               onClick={() => {
                 fire.auth().signOut();
                 window.location.reload();
@@ -35,9 +35,9 @@ function Admin() {
 
         <Switch>
           <React.StrictMode>
-            <Route exact path="/" component={NewOrders} />
-            <Route exact path="/receivedorders" component={ReceivedOrders} />
-            <Route exact path="/completedorders" component={CompletedOrders} />
+            <Route exact path='/' component={NewOrders} />
+            <Route exact path='/receivedorders' component={ReceivedOrders} />
+            <Route exact path='/completedorders' component={CompletedOrders} />
           </React.StrictMode>
         </Switch>
       </div>

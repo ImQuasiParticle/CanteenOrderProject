@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import Order from "../Order";
 import { fire, db } from "../../firebase";
 import CustomerNav from "./CustomerNav";
-
 function UserOrders({ user, setUser }) {
   const [orders, setOrders] = useState([]);
   console.log(user);
@@ -11,9 +10,11 @@ function UserOrders({ user, setUser }) {
   useEffect(() => {
     const unSubscribe = db
       .collection("orders")
-      .where("status", "==", "Pending" || "Received")
+      // .where("status", "==", "Pending")
+      // .where("status", "==", "Received")
+
       .where("name", "==", user.displayName)
-      // .orderBy("timestamp", "desc")
+      .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
         setOrders(
           snapshot.docs.map((doc) => ({

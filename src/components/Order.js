@@ -27,19 +27,8 @@ const useStyles = makeStyles((theme) => ({
     width: "auto",
   },
 }));
-let object = [];
 export default function Order(props) {
   const classes = useStyles();
-  const [foodEle, setFoodEle] = useState([]);
-  useEffect(() => {
-    object = JSON.parse(JSON.stringify(props.order.orderItems));
-    console.log(object);
-  }, []);
-
-  // function getData(item) {
-  //   var fullname = [item.itemName, item.].join(" ");
-  //   return fullname;
-  // }
   function statusButton() {
     if (props.order.awaitStatus !== "Complete") {
       return (
@@ -56,11 +45,6 @@ export default function Order(props) {
       return null;
     }
   }
-  //   db.collection("orders").doc(props.orderId).update({
-  //     status: "Received",
-  //   });
-  //   console.log("statusButton");
-  // }
 
   return (
     <div className={classes.root}>
@@ -72,12 +56,14 @@ export default function Order(props) {
                 <Typography gutterBottom variant="h6">
                   {props.order.name}
                 </Typography>
-                <Typography variant="h6" gutterBottom>
-                  {JSON.stringify(props.order.orderItems)}
-                  {/* {props.order.orderItems.map((item) => {
-                    item.itemName;
-                  })} */}
-                </Typography>
+                {props.order.orderItems.map((element) => {
+                  return (
+                    <Typography display="block" variant="body2" gutterBottom>
+                      {element.itemName} Qty - {element.qty}
+                    </Typography>
+                  );
+                })}
+
                 <Typography variant="body2" color="textSecondary">
                   ID: {props.orderId}
                 </Typography>

@@ -1,33 +1,49 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { db } from "../../firebase";
 import { Remove, Add } from "@material-ui/icons";
 import CustomerNav from "./CustomerNav";
+import firebase from "firebase";
 //import Order from '../Order.js';
-
-let array = [];
-
+const array = [];
 function Book({ user, setUser }) {
   const [cartItems, setCartItems] = useState([]);
-  const [items, setItems] = useState([]);
+  const [menu, setMenu] = useState([]);
+
+  let [count, setCount] = useState(0);
 
   useEffect(() => {
     db.collection("items").onSnapshot((snapshot) => {
-      setItems(
+      setMenu(
         snapshot.docs.map((doc) => ({
           id: doc.id,
+          item: doc.data(),
         }))
       );
     });
-    console.log("hiii", items);
   }, []);
 
-  const addItem = (prop) => {
-    console.log("Helloooo");
-    array.push(prop);
-    setCartItems(array);
-    console.log(array);
+  const addItem = ({ id, item }) => {
+    if (cartItems.filter((item) => item.itemName == id).length == 0) {
+      setCartItems((prevArray) =>
+        prevArray.concat({ itemName: id, qty: 1, price: item.price })
+      );
+      // array.push({ itemName: id, qty: 1, price: item.price });
+    } else {
+      let index = cartItems.findIndex((obj) => obj.itemName === id);
+      console.log(index);
+      cartItems[index].qty += 1;
+      cartItems[index].price += item.price;
+      // cartItems.filter((add) => {
+      //   add.qty = add.qty + 1;
+      //   add.price += item.price;
+      //   // setCount(count + item.price);
+      // });
+    }
+    setCount(count + item.price);
+    // setCartItems(array);
   };
+  // console.log(cartItems);
   const removeItem = (prop) => {
     if (array.includes(prop)) {
       var i = array.indexOf(prop);
@@ -36,19 +52,48 @@ function Book({ user, setUser }) {
       console.log(array);
     }
   };
+  function booking() {
+    db.collection("orders").add({
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      name: user.displayName,
+      email: user.email,
+      orderItems: cartItems,
+      status: "Pending",
+      awaitStatus: "Receive",
+      totalAmount: count,
+    });
+    setCount(0);
+    setCartItems([]);
+  }
   return (
     <div>
       <CustomerNav setUser={setUser} />
-      <button onClick={() => addItem("noodles")}>noodles</button>
-      <h1 onClick={() => addItem("french fries")}>french fries</h1>
-      <h1>water Bottle</h1>
-      {items.map(({ id }) => (
+      {menu.map(({ id, item }) => (
         <div>
-          <Remove onClick={() => removeItem(id)} />
+          <Remove onClick={() => removeItem(id, item)} />
           {id}
-          <Add onClick={() => addItem(id)} />
+          <Add
+            onClick={() => {
+              addItem({ id, item });
+            }}
+          />
+          {item.price}
         </div>
       ))}
+      <button
+        onClick={() => {
+          booking();
+        }}
+      >
+        book
+      </button>
+      <div>
+        {cartItems.map((item) => (
+          <div>
+            {item.itemName} {item.qty}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

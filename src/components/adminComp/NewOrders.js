@@ -10,7 +10,7 @@ function NewOrders(props) {
     const unSubscribe = db
       .collection("orders")
       .where("status", "==", "Pending")
-      // .orderBy("timestamp", "desc")
+      .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
         setOrders(
           snapshot.docs.map((doc) => ({

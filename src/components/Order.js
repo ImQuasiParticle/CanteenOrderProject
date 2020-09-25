@@ -88,7 +88,7 @@ export default function Order(props) {
               STATUS : {props.order.status}
             </Typography>
           </Grid>
-          <Grid item>{statusButton()}</Grid>
+          {!props.user ? <Grid item>{statusButton()}</Grid> : null}
         </Grid>
       </Paper>
     </div>

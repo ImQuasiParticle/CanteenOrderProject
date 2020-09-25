@@ -29,7 +29,7 @@ function CompletedUserOrders({ user, setUser }) {
     <div>
       <CustomerNav setUser={setUser} />
       {orders.map(({ id, order }) => (
-        <Order orderId={id} order={order} key={id} />
+        <Order user={user} orderId={id} order={order} key={id} />
       ))}
     </div>
   );

@@ -8,11 +8,7 @@ function UserOrders({ user, setUser }) {
   console.log(user);
 
   useEffect(() => {
-    const unSubscribe = db
-      .collection("orders")
-      // .where("status", "==", "Pending")
-      // .where("status", "==", "Received")
-
+    db.collection("orders")
       .where("name", "==", user.displayName)
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {

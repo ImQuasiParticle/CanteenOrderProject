@@ -66,29 +66,25 @@ function Book({ user, setUser }) {
       setCartItems((prevArray) =>
         prevArray.concat({ itemName: id, qty: 1, price: item.price })
       );
-      // array.push({ itemName: id, qty: 1, price: item.price });
     } else {
       let index = cartItems.findIndex((obj) => obj.itemName === id);
       console.log(index);
       cartItems[index].qty += 1;
       cartItems[index].price += item.price;
-      // cartItems.filter((add) => {
-      //   add.qty = add.qty + 1;
-      //   add.price += item.price;
-      //   // setCount(count + item.price);
-      // });
     }
     setCount(count + item.price);
-    // setCartItems(array);
   };
-  // console.log(cartItems);
-  const removeItem = (prop) => {
-    if (array.includes(prop)) {
-      var i = array.indexOf(prop);
-      array.splice(i, 1);
-      setCartItems(array);
-      console.log(array);
+
+  const removeItem = ({ id, item }) => {
+    let index = cartItems.findIndex((obj) => obj.itemName === id);
+    console.log(index);
+    if (cartItems[index].qty > 1) {
+      cartItems[index].qty -= 1;
+      cartItems[index].price -= item.price;
+    } else if (cartItems[index].qty === 1) {
+      cartItems.splice(index, 1);
     }
+    setCount(count - item.price);
   };
   function booking() {
     db.collection("orders").add({
@@ -99,6 +95,7 @@ function Book({ user, setUser }) {
       status: "Pending",
       awaitStatus: "Receive",
       totalAmount: count,
+      awaitNumber: 0,
     });
     setCount(0);
     setCartItems([]);
@@ -115,7 +112,7 @@ function Book({ user, setUser }) {
                   <Grid item>
                     <Paper alignItems="center" className={classes.add_remove}>
                       <center>
-                        <Remove onClick={() => removeItem(id, item)} />
+                        <Remove onClick={() => removeItem({ id, item })} />
                       </center>
                     </Paper>
                   </Grid>
